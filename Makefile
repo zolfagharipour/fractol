@@ -1,8 +1,8 @@
 
 NAME = mlx
 
-SRCS =  mlx.c ../libft_math/ft_abs.c ../libft_math/ft_add_comp.c ../libft_math/ft_mult_comp.c ../libft_math/ft_pow.c \
-		../libft_math/ft_root.c ../libft_math/ft_size_com.c
+SRCS =  mlx.c libft_math/ft_abs.c libft_math/ft_add_comp.c libft_math/ft_mult_comp.c libft_math/ft_pow.c \
+		libft_math/ft_root.c libft_math/ft_size_com.c
 
 OBJS = ${SRCS:.c=.o}
 
@@ -14,8 +14,8 @@ RM	=	rm -rf
 all: ${NAME}
 
 ${NAME}: ${OBJS}
-
-	$(CC) $(OBJS) -I/usr/include -L/usr/lib -Imlx -lmlx -lXext -lX11 -lm -lz -o $(NAME)
+	$(CC) $(OBJS) -Lminilibx-linux -lmlx_Linux -lX11 -lXext -lm
+#	$(CC) $(OBJS) -I/usr/include -L/usr/lib -Imlx -lmlx -lXext -lX11 -lm -lz -o $(NAME)
 
 %.o: %.c
 	$(CC)  -c $< -o $@

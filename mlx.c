@@ -1,11 +1,7 @@
-#include <mlx.h>
-#include <stdio.h>
-#include <X11/keysym.h>
-#include "../libft_math/libft_math.h"
-#include <stdio.h>
+#include "main.h"
 
-# define W 800
-# define H 450
+# define W 1700
+# define H 1200
 
 typedef struct	s_data {
 	void	*img;
@@ -21,83 +17,68 @@ int	converge(t_complex z, t_complex c)
 	int	i;
 
 	i = 0;
-	while (i < 100)
+	while (i < 60)
 	{
 		z = ft_mult_comp(z, z);
 		z = ft_add_comp(z, c);
 		if (ft_size_comp(z) > 2)
-			return (0);
+			return (i);
 		i++;
 	}
-	return (1);
+	return (0);
 }
-void circle(t_data *img, void *mlx, void *mlx_win)
+
+void circle(int screen[W][H], t_data *img, void *mlx, void *mlx_win)
 {
 	int	y = 0;
 	int x = 0;
 	int color = 0;
-	while (y < H * 4)
+	int offset;
+	while (y < H)
 	{
 		x = 0;
 		while (x < W)
 		{
-			img->addr[y * W + x] = color;
+			offset = (y * img->line_length + x * (img->bpp / 8));
+				color = create_trgb(0, screen[x][y] * 8 + 10, screen[x][y] * 8 / 2, screen[x][y] * 7 + 30);
+			*(unsigned int *)(img->addr + offset) = color;
 			x++;
-			color += 0x000000FF % 16;
+			color ++;
 		}
 		y++;
 	}
 	mlx_put_image_to_window(mlx, mlx_win, img->img, 0, 0);
 }
-
-void	print_screen(int screen[W][H * 4], t_data *img, void *mlx, void *mlx_win)
-{
-	t_vector	i;
-
-	int x = 0;
-	int y = 0;
-	while (y < H * 4)
-	{
-		while (x < W)
-		{
-			img->addr[y * W + x] = 10;
-			// if (screen[i.x][i.y])
-			// 	img->addr[i.y * W + i.x] = 10;
-			// else
-			// 	img->addr[i.y * W + i.x] = 0;
-			x++;
-		}
-		x = 0;
-		y++;
-	}
-	mlx_put_image_to_window(mlx, mlx_win, img->img, 0, 0);
-}
-
 void fractol(t_data *img, void *mlx, void *mlx_win)
 {
-	int screen[W][H * 4];
+	int screen[W][H];
 	t_vector i;
 	t_complex z;
 	t_complex c;
-
-	c.real = -2;
-	i.y = 0;
+	c.real = -2.3;
+	i.x = 0;
 	while (i.x < W)
 	{
 		z.im = 0;
 		z.real = 0;
 		i.y = 0;
-		c.im = -1;
-		while (i.y < H * 4)
+		c.im = -1.3;
+		while (i.y < H)
 		{
 			screen[i.x][i.y] = converge(z, c);
-			c.im += 0.03;
+			c.im += 0.002;
 			i.y++;
 		}
-		c.real += 0.01;
+		c.real += 0.002;
 		i.x++;
 	}
-	print_screen(screen, &img, mlx, mlx_win);
+	circle (screen, img, mlx, mlx_win);
+	printf("MANDELBROT SET IS GENERATED\n");
+	// print_screen(screen, &img, mlx, mlx_win);
+}
+int	create_trgb(int t, int r, int g, int b)
+{
+	return (t << 24 | r << 16 | g << 8 | b);
 }
 
 
@@ -113,6 +94,7 @@ int main()
 	img.addr = mlx_get_data_addr(img.img, &img.bpp, &img.line_length, &img.endian);
 printf("line_lenght%d\nbpp:%d\n", img.line_length, img.bpp);
 	fractol (&img, mlx, mlx_win);
+	// circle (&img, mlx, mlx_win);
 	
 
 	mlx_loop(mlx);

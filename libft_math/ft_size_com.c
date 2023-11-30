@@ -1,5 +1,4 @@
 #include "libft_math.h"
-#include <math.h>
 
 double	ft_size_comp(t_complex z)
 {

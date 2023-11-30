@@ -3,7 +3,9 @@
 
 # define PI 3.14159265359
 
-# include "unistd.h"
+# include <unistd.h>
+#include <math.h>
+
 
 typedef struct s_complex {
 	long double	real;
