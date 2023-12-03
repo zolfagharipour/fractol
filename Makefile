@@ -2,8 +2,8 @@
 NAME = mlx
 
 SRCS =  fractol.c image.c mandelbrot.c  fractol_utils.c\
-		libft_math/ft_abs.c libft_math/ft_add_comp.c libft_math/ft_mult_comp.c libft_math/ft_pow.c \
-		libft_math/ft_root.c libft_math/ft_size_com.c
+		libft_math/ft_abs.c libft_math/ft_add_comp.c libft_math/ft_mult_comp.c \
+		 libft_math/ft_size_com.c
 
 OBJS = ${SRCS:.c=.o}
 

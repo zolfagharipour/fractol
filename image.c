@@ -31,22 +31,23 @@ int keyboard(int keycode, t_img *img)
 	if (keycode == XK_Escape)
 		close_window(keycode, img);
 	else if (keycode == XK_Left)
-		img->screen_begin.real -= 0.3;
+		img->screen_begin.real *= 0.9;
 	else if (keycode == XK_Right)
-		img->screen_begin.real += 0.3;
+		img->screen_begin.real *= 1.1;
 	else if (keycode == XK_Up)
 		img->screen_begin.im *= 0.9;
 	else if (keycode == XK_Down)
 		img->screen_begin.im *= 1.1;
 	else if (keycode == 97)
 	{
-		img->screen_begin.real *= 0.8;
-		img->screen_begin.im *= 0.8;
+		// img->screen_begin.real *= 0.8;
+		// img->screen_begin.im *= 0.8;
 		img->percission *= 0.8;
-		img->iter_mult += 1;
-
 	}
-
+	else if (keycode == XK_i)
+	{
+		img->iter_mult *= 1.5;
+	}
 	run_set(img, "mandel");
 
 }

@@ -8,8 +8,8 @@
 
 
 typedef struct s_complex {
-	long double	real;
-	long double	im;
+	double	real;
+	double	im;
 } t_complex;
 
 typedef struct s_vector {

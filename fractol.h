@@ -11,7 +11,7 @@
 #include "libft_math/libft_math.h"
 #include "libft/libft.h"
 
-# define W 1000
+# define W 800
 # define H 800
 
 typedef struct	s_img {
