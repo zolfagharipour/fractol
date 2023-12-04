@@ -1,15 +1,11 @@
 #include "fractol.h"
 
-static int	converge(int iter_mult, t_complex c)
+static int	converge(int iter_mult, t_complex c, t_complex z)
 {
-	t_complex	z;
 	int			i;
 
 	i = 0;
-	z.real = 0;
-	z.im = 0;
-	
-	while (i < 10 * abs(iter_mult))
+	while (i < 20 * abs(iter_mult))
 	{
 
 		z = ft_mult_comp(z, z);
@@ -24,32 +20,32 @@ static int	converge(int iter_mult, t_complex c)
 static void	draw_child(t_img *img, t_vector begin)
 {
 	t_vector	i;
-	t_complex	c;
+	t_complex	z;
 	int			color;
 	int			offset;
 
 	i.x = begin.x;
-	c.real = img->screen_begin.real + (begin.x * img->percission);
+	z.real = img->screen_begin.real + (begin.x * img->percission);
 	while( i.x <= begin.x + W / 10)
 	{
 		i.y = begin.y;
-		c.im = img->screen_begin.im + (begin.y * img->percission);
+		z.im = img->screen_begin.im + (begin.y * img->percission);
 		while (i.y <= begin.y + H / 10)
 		{
 			offset = (i.y * img->line_length + i.x * (img->bpp / 8));
-			color = converge(img->iter_mult, c);
-			color = creat_trgb(0, (color * 12) + 20 %256, (color * 4) %256, (color * 8) +30 %256);
+			color = converge(img->iter_mult, img->julia, z);
+			color = creat_trgb(0, (color * 4) + 20 %256, (color * 2) %256, (color * 3) +30 %256);
 			*(unsigned int *)(img->addr + offset) = color;
-			c.im += img->percission;
+			z.im += img->percission;
 			i.y++;
 		}
-		c.real += img->percission;
+		z.real += img->percission;
 		i.x++;
 	}
 	exit (EXIT_SUCCESS);
 }
 
-void	mandelbrot(t_img *img)
+void	julia(t_img *img)
 {
 	t_vector	i;
 	pid_t		pid[100];
