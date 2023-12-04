@@ -65,7 +65,6 @@ int keyboard(int keycode, t_img *img)
 
 int	mouse(int button, int x, int y, t_img *img)
 {
-	printf("button: %d\n", button);
 	if (button == 1)
 	{
 		img->julia.real = img->screen_begin.real + (img->percission * x);
@@ -76,12 +75,15 @@ int	mouse(int button, int x, int y, t_img *img)
 		img->screen_begin.real += img->percission * (W - 1) * 0.1;
 		img->screen_begin.im += img->percission * (H - 1) * 0.1;
 		img->percission /= 1.25;
+		printf("W: %f\tH: %f\n", img->percission * W, img->percission * H);
+
 	}	
 	if (button == 5)
 	{
 		img->screen_begin.real -= img->percission * (W - 1) * 0.1;
 		img->screen_begin.im -= img->percission * (H - 1) * 0.1;
 		img->percission *= 1.25;
+		printf("W: %f\tH: %f\n", img->percission * W, img->percission * H);
 	}
 	run_set(img, "julia");
 

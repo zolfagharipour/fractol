@@ -9,6 +9,7 @@
 # include <sys/wait.h>
 # include <math.h>
 # include <X11/X.h>
+# include <X11/Xlib.h>
 # include <X11/keysym.h>
 # include "minilibx-linux/mlx.h"
 # include "libft_math/libft_math.h"
