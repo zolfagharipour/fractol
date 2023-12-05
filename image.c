@@ -12,7 +12,7 @@ void	run_set(t_img *img, char *name)
 		}
 		else if (!ft_strncmp(name, "newton", ft_strlen(name)))
 		{
-			// NEWTON
+			newton(img);
 		}
 
 }
@@ -59,7 +59,7 @@ int keyboard(int keycode, t_img *img)
 		img->iter_mult *= 0.75;
 		printf ("number of iteration: %d\n", abs(img->iter_mult * 10));
 	}
-	run_set(img, "julia");
+	run_set(img, "newton");
 
 }
 
@@ -85,7 +85,7 @@ int	mouse(int button, int x, int y, t_img *img)
 		img->percission *= 1.25;
 		printf("W: %f\tH: %f\n", img->percission * W, img->percission * H);
 	}
-	run_set(img, "julia");
+	run_set(img, "newton");
 
 }
 int	event_handler(t_img *img, char *name)
@@ -97,9 +97,9 @@ int	event_handler(t_img *img, char *name)
 }
 void	fractal_init(t_img *img)
 {
-	img->screen_begin.real = -2.2;
-	img->screen_begin.im = -1.2;
-	img->percission = 0.003;
+	img->screen_begin.real = -2;
+	img->screen_begin.im = -2;
+	img->percission = 0.004;
 	img->iter_mult = 1.0;
 	img->julia.real = -0.8;
 	img->julia.im = 0.156;

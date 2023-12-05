@@ -23,8 +23,11 @@ double	ft_pow(double base, int power);
 double ft_root(int base, int root);
 double	ft_size_comp(t_complex z);
 
+t_complex	ft_pow_comp(t_complex z, int e);
 t_complex	ft_add_comp(t_complex z1, t_complex z2);
 t_complex	ft_mult_comp(t_complex z1, t_complex z2);
+t_complex	ft_dev_comp(t_complex z1, t_complex z2);
+
 
 
 #endif
