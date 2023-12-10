@@ -3,14 +3,15 @@
 static int	converge(int iter_mult, t_complex c, t_complex z)
 {
 	int			i;
+	double		tmp;
 
 	i = 0;
-	while (i < 20 * abs(iter_mult))
+	while (i < 50 * abs(iter_mult))
 	{
-
-		z = ft_mult_comp(z, z);
-		z = ft_add_comp(z, c);
-		if (ft_size_comp(z) > 2)
+		tmp = z.real * z.real - z.im * z.im + c.real;
+		z.im = c.im + (z.real * z.im + z.real * z.im);
+		z.real = tmp;
+		if (ft_size_comp(z) > 4)
 			return (i);		
 		i++;
 	}
@@ -29,14 +30,14 @@ static void	draw_child(t_img *img, t_vector begin)
 	while( i.x <= begin.x + W / 10)
 	{
 		i.y = begin.y;
-		z.im = img->screen_begin.im + (begin.y * img->percission);
+		z.im = img->screen_begin.im - (begin.y * img->percission);
 		while (i.y <= begin.y + H / 10)
 		{
 			offset = (i.y * img->line_length + i.x * (img->bpp / 8));
 			color = converge(img->iter_mult, img->julia, z);
 			color = creat_trgb(0, (color * 4) + 20 %256, (color * 2) %256, (color * 3) +30 %256);
 			*(unsigned int *)(img->addr + offset) = color;
-			z.im += img->percission;
+			z.im -= img->percission;
 			i.y++;
 		}
 		z.real += img->percission;

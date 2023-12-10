@@ -4,7 +4,6 @@ double	ft_size_comp(t_complex z)
 {
 	double	nbr;
 
-	nbr = pow(z.real, 2) + pow(z.im, 2);
-	nbr = sqrt(nbr);
+	nbr = z.real * z.real + z.im * z.im;
 	return (nbr);
 }

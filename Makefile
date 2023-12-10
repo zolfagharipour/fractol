@@ -1,7 +1,7 @@
 
 NAME = fractol
 
-SRCS =  fractol.c image.c mandelbrot.c  fractol_utils.c julia.c newton.c\
+SRCS =  fractol.c image.c mandelbrot.c  fractol_utils.c julia.c newton.c events.c\
 		libft_math/ft_abs.c libft_math/ft_add_comp.c libft_math/ft_mult_comp.c \
 		libft_math/ft_size_com.c libft_math/ft_pow_comp.c libft_math/ft_dev_comp.c
 
@@ -21,10 +21,9 @@ ${NAME}: ${OBJS}
 %.o: %.c
 	$(CC)  -c $< -o $@
 
-clean: 
-
+clean:
+	make --no-print-directory -C ./libft fclean
 	${RM} ${OBJS} ${BONUS_OBJS}
-
 
 fclean: clean
 	${RM} ${NAME} ${CHECK}

@@ -1,122 +1,58 @@
 #include "fractol.h"
 
-void	run_set(t_img *img, char *name)
+void	run_set(t_img *img)
 {
-		if (!ft_strncmp(name, "mandel", ft_strlen(name)))
-		{
-			mandelbrot(img);
-		}
-		else if (!ft_strncmp(name, "julia", ft_strlen(name)))
-		{
-			julia(img);
-		}
-		else if (!ft_strncmp(name, "newton", ft_strlen(name)))
-		{
-			newton(img);
-		}
-
-}
-int	close_window(int keycode,t_img *img)
-{
-		mlx_destroy_image(img->mlx, img->img);
-		mlx_destroy_window(img->mlx, img->mlx_win);
-		mlx_destroy_display(img->mlx);
-		free(img->mlx);
-		exit(EXIT_SUCCESS);
+	if (!ft_strncmp(img->av[1], "mandelbrot", ft_strlen(img->av[1])))
+	{
+		mandelbrot(img);
+	}
+	else if (!ft_strncmp(img->av[1], "julia", ft_strlen(img->av[1])))
+	{
+		julia(img);
+	}
+	else if (!ft_strncmp(img->av[1], "newton", ft_strlen(img->av[1])))
+	{
+		newton(img);
+	}
 }
 
-int keyboard(int keycode, t_img *img)
+void	fractal_init(t_img *img, int ac, char **av)
 {
-	if (keycode == XK_Escape)
-		close_window(keycode, img);
-	else if (keycode == XK_Left)
-		img->screen_begin.real -= img->percission * (W - 1) * 0.1;
-	else if (keycode == XK_Right)
-		img->screen_begin.real += img->percission * (W - 1) * 0.1;
-	else if (keycode == XK_Up)
-		img->screen_begin.im -= img->percission * (H - 1) * 0.1;
-	else if (keycode == XK_Down)
-		img->screen_begin.im += img->percission * (H - 1) * 0.1;
-	else if (keycode == XK_a)
-	{
-		img->screen_begin.real -= img->percission * (W - 1) * 0.1;
-		img->screen_begin.im -= img->percission * (H - 1) * 0.1;
-		img->percission *= 1.25;
-	}
-	else if (keycode == XK_s)
-	{
-		img->screen_begin.real += img->percission * (W - 1) * 0.1;
-		img->screen_begin.im += img->percission * (H - 1) * 0.1;
-		img->percission /= 1.25;
-	}
-	else if (keycode == XK_q)
-	{
-		img->iter_mult *= 1.5;
-		printf ("number of iteration: %d\n", abs(img->iter_mult * 10));
-	}
-	else if (keycode == XK_e)
-	{
-		img->iter_mult *= 0.75;
-		printf ("number of iteration: %d\n", abs(img->iter_mult * 10));
-	}
-	run_set(img, "newton");
-
-}
-
-int	mouse(int button, int x, int y, t_img *img)
-{
-	if (button == 1)
-	{
-		img->julia.real = img->screen_begin.real + (img->percission * x);
-		img->julia.im = img->screen_begin.im + (img->percission * y);
-	}
-	if (button == 4)
-	{
-		img->screen_begin.real += img->percission * (W - 1) * 0.1;
-		img->screen_begin.im += img->percission * (H - 1) * 0.1;
-		img->percission /= 1.25;
-		printf("W: %f\tH: %f\n", img->percission * W, img->percission * H);
-
-	}	
-	if (button == 5)
-	{
-		img->screen_begin.real -= img->percission * (W - 1) * 0.1;
-		img->screen_begin.im -= img->percission * (H - 1) * 0.1;
-		img->percission *= 1.25;
-		printf("W: %f\tH: %f\n", img->percission * W, img->percission * H);
-	}
-	run_set(img, "newton");
-
-}
-int	event_handler(t_img *img, char *name)
-{
-	mlx_hook(img->mlx_win, 2, 1L<<0, keyboard, img);
-	mlx_hook(img->mlx_win, 17, 1L<<0, close_window, img);
-	mlx_hook(img->mlx_win, 4, 1L<<2, mouse, img);
-	run_set(img, name);
-}
-void	fractal_init(t_img *img)
-{
-	img->screen_begin.real = -2;
-	img->screen_begin.im = -2;
-	img->percission = 0.004;
+	img->screen_begin.real = -2.2;
+	img->screen_begin.im = 1.2;
+	img->percission = 0.003;
 	img->iter_mult = 1.0;
-	img->julia.real = -0.8;
-	img->julia.im = 0.156;
+	img->av = av;
+	img->ac = ac;
+	img->lambda.real = 0;
+	img->lambda.im = 1;
+	img->color = 4;
+	img->wing = 2;
+	if (ac == 3 && !ft_strncmp(av[1], "mandelbrot", ft_strlen(av[1])))
+		img->wing = ft_atoi(av[2]);
+	if (ac > 3)
+	{
+		img->julia.real = atof(av[2]);
+		img->julia.im = atof(av[3]);
+	}
+	else
+	{
+		img->julia.real = 0;
+		img->julia.im = 0;
+	}
 }
 
-void	creat_img(char *name)
+void	creat_img(int ac, char **av)
 {
 	t_img		img;
 
-	fractal_init(&img);
+	fractal_init(&img, ac, av);
 	img.mlx = mlx_init();
-	img.mlx_win = mlx_new_window(img.mlx, W, H, name);
+	img.mlx_win = mlx_new_window(img.mlx, W, H, av[1]);
 	img.img = mlx_new_image(img.mlx, W, H);
-	img.addr = mlx_get_data_addr(img.img, &img.bpp, &img.line_length, &img.endian);
+	img.addr = mlx_get_data_addr(img.img, &img.bpp,
+			&img.line_length, &img.endian);
 	XInitThreads();
-	
-	event_handler(&img, name);
+	event_handler(&img);
 	mlx_loop(img.mlx);
 }
-
