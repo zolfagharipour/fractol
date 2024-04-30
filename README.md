@@ -20,7 +20,7 @@ This repository is intended as a reference and educational tool. **42 students a
 The MiniLibX library is included in the repository. Follow these instructions to compile and run the project:
 
 ```
-git clone https://github.com/yourusername/fractol.git
+git clone https://github.com/zolfagharipour/fractol.git
 cd fractol
 make
 ```
