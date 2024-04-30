@@ -49,5 +49,5 @@ The project includes the following bonus features:
 
 - **Additional Fractal**: The Newton fractal is implemented as an additional set to explore.
 - **Mouse-Centered Zoom**: Zooming in and out follows the actual mouse position, enhancing the exploration experience.
-- **Color Shift**: The color range shifts dynamically to create varying visual effects.
+- **Color Shift**: The color range shifts dynamically to create varying visual effects. you can also change the color theme by pressing C in keyboard.
 
