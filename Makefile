@@ -9,17 +9,17 @@ OBJS = ${SRCS:.c=.o}
 
 
 CC = cc
-CFLAGS = -g
+CFLAGS = -Wall -Wextra -Werror -g
 RM	=	rm -rf
 
 all: ${NAME}
 
 ${NAME}: ${OBJS}
 	make --no-print-directory -C ./libft
-	$(CC) $(OBJS) -Lminilibx-linux -lmlx_Linux -lX11 -lXext -lm ./libft/libft.a -o $@
+	$(CC) ${CFLAGS} $(OBJS) -Lminilibx-linux -lmlx -lX11 -lXext -lm ./libft/libft.a -o $@
 
 %.o: %.c
-	$(CC)  -c $< -o $@
+	$(CC) ${CFLAGS} -c $< -o $@
 
 clean:
 	make --no-print-directory -C ./libft fclean

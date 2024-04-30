@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   fractol.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mzolfagh <zolfagharipour@gmail.com>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/12/11 13:03:39 by mzolfagh          #+#    #+#             */
+/*   Updated: 2023/12/11 13:03:41 by mzolfagh         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "fractol.h"
 
 static void	info_print(void)
@@ -33,6 +45,7 @@ static int	error_check(int ac, char **av)
 			return (0);
 	}
 	info_print();
+	return (0);
 }
 
 int	main(int ac, char *av[])

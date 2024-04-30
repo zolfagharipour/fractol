@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   image.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mzolfagh <zolfagharipour@gmail.com>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/12/11 13:04:13 by mzolfagh          #+#    #+#             */
+/*   Updated: 2023/12/11 13:04:14 by mzolfagh         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "fractol.h"
 
 void	run_set(t_img *img)
@@ -19,15 +31,15 @@ void	run_set(t_img *img)
 void	fractal_init(t_img *img, int ac, char **av)
 {
 	img->screen_begin.real = -2.2;
-	img->screen_begin.im = 1.2;
-	img->percission = 0.003;
+	img->screen_begin.im = 1.4;
+	img->percission = 0.005;
 	img->iter_mult = 1.0;
 	img->av = av;
 	img->ac = ac;
 	img->lambda.real = 0;
 	img->lambda.im = 1;
 	img->color = 4;
-	img->wing = 2;
+	img->wing = 1;
 	if (ac == 3 && !ft_strncmp(av[1], "mandelbrot", ft_strlen(av[1])))
 		img->wing = ft_atoi(av[2]);
 	if (ac > 3)
@@ -52,7 +64,6 @@ void	creat_img(int ac, char **av)
 	img.img = mlx_new_image(img.mlx, W, H);
 	img.addr = mlx_get_data_addr(img.img, &img.bpp,
 			&img.line_length, &img.endian);
-	XInitThreads();
 	event_handler(&img);
 	mlx_loop(img.mlx);
 }

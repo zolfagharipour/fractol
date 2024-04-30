@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   events.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mzolfagh <zolfagharipour@gmail.com>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/12/11 13:03:21 by mzolfagh          #+#    #+#             */
+/*   Updated: 2023/12/11 13:03:29 by mzolfagh         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "fractol.h"
 
-static int	close_window(int keycode, t_img *img)
+static int	close_window(t_img *img)
 {
 	mlx_destroy_image(img->mlx, img->img);
 	mlx_destroy_window(img->mlx, img->mlx_win);
@@ -12,7 +24,7 @@ static int	close_window(int keycode, t_img *img)
 static int	keyboard(int keycode, t_img *img)
 {
 	if (keycode == XK_Escape)
-		close_window(keycode, img);
+		close_window(img);
 	else if (keycode == XK_Left || keycode == XK_a)
 		img->screen_begin.real -= img->percission * (W - 1) * 0.1;
 	else if (keycode == XK_Right || keycode == XK_d)
@@ -30,6 +42,7 @@ static int	keyboard(int keycode, t_img *img)
 	else if (keycode == XK_e)
 		img->iter_mult *= 0.75;
 	run_set(img);
+	return (0);
 }
 
 static int	mouse(int button, int x, int y, t_img *img)
@@ -47,6 +60,7 @@ static int	mouse(int button, int x, int y, t_img *img)
 		img->percission *= 1.25;
 	}
 	run_set(img);
+	return (0);
 }
 
 static int	mouse_track(int x, int y, t_img *img)
@@ -54,13 +68,15 @@ static int	mouse_track(int x, int y, t_img *img)
 	img->julia.real = img->screen_begin.real + (img->percission * x);
 	img->julia.im = img->screen_begin.im - (img->percission * y);
 	run_set(img);
+	return (0);
 }
 
 int	event_handler(t_img *img)
 {
 	mlx_hook(img->mlx_win, 2, 1L << 0, keyboard, img);
-	mlx_hook(img->mlx_win, 17, 1L << 0, close_window, img);
+	mlx_hook(img->mlx_win, 17, 1L << 8, close_window, img);
 	mlx_hook(img->mlx_win, 6, 1L << 8, mouse_track, img);
 	mlx_hook(img->mlx_win, 4, 1L << 2, mouse, img);
 	run_set(img);
+	return (0);
 }
